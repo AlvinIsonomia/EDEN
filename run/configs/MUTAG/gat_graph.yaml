@@ -1,0 +1,38 @@
+out_dir: results/MUTAG
+dataset:
+  format: PyG
+  name: TU_MUTAG
+  task: graph
+  task_type: classification
+  transductive: True
+  split: [0.8, 0.2 ]
+  augment_feature: [node_PCA] # node_EDEN, node_PCA, node_MMPCA, node_RMMPCA 
+  augment_feature_dims: [3]
+  augment_feature_repr: original
+  augment_label: ''
+  augment_label_dims: 0
+train:
+  batch_size: 32
+  eval_period: 5
+  ckpt_period: 100
+model:
+  type: gnn
+  loss_fun: cross_entropy
+  edge_decoding: dot
+  graph_pooling: add
+gnn:
+  layers_pre_mp: 1
+  layers_mp: 2
+  layers_post_mp: 1
+  dim_inner: 256
+  layer_type: gatconv
+  stage_type: stack
+  batchnorm: False
+  act: relu
+  dropout: 0.0
+  agg: add
+  normalize_adj: True
+optim:
+  optimizer: adam
+  base_lr: 0.01
+  max_epoch: 300
